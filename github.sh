@@ -68,6 +68,4 @@ case "$method" in
 	;;
 esac
 
-cmd="$cmd"
-
 eval $cmd
