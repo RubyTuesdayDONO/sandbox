@@ -21,12 +21,37 @@
             ((and (< a 0) (< b 0))
              (+ a b (* a b)))
             (#t (/ (+ a b)
-                  (- 1 (min (abs a) (abs b))))))))
+                   (- 1 (min (abs a) (abs b))))))))
   (define cf-and
     (lambda  (a b)
       "Combine the certanty factors for the formula (A and B)."
       (min a b)))
+  
+  ;; below this certainty we cut off search.
+  (define cf-cut-off 0.2)
+
+      
+  (define true-p
+    ;; is this certainty factor considered true?
+    (lambda (cf)
+      (and
+       (cf-p cf)
+       (> cf cf-cut-off))))
+
+  (define false-p
+    ;; is this certainty factor considered false?
+    (lambda (cf)
+      (and
+       (cf-p cf)
+       (< cf (- cf-cut-off 1.0)))))
+
+  (define cf-p
+    ;; is x a valid numeric certainty factor?
+    (lambda (x)
+      (and
+       (numberp x)
+       (<= false x true))))
+
 
   (cf-and 1 1)
-  (cf-or 0 0)
-  )
+  (cf-or 0 0))
